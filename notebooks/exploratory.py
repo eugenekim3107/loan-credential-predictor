@@ -30,4 +30,4 @@ for train_index, test_index in split.split(loan, loan['fico_cat']):
 for set_ in (strat_train_set, strat_test_set):
     set_.drop('fico_cat', axis=1, inplace=True)
 
-loan_train_set = strat_train_set.copy()
+loan = strat_train_set.copy()
