@@ -32,3 +32,4 @@ for set_ in (strat_train_set, strat_test_set):
     set_.drop('fico_cat', axis=1, inplace=True)
 
 loan = strat_train_set.copy()
+loan_test_set = strat_test_set.copy()
