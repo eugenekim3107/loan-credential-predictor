@@ -33,3 +33,7 @@ for set_ in (strat_train_set, strat_test_set):
 
 loan = strat_train_set.copy()
 loan_test_set = strat_test_set.copy()
+
+#searching for correlations
+corr_matrix = loan.corr()
+corr_matrix['credit.policy'].sort_values(ascending=False)
