@@ -25,7 +25,7 @@ split = StratifiedShuffleSplit(n_splits=1, test_size=0.2,random_state=42)
 
 for train_index, test_index in split.split(loan, loan['fico_cat']):
     strat_train_set = loan.loc[train_index]
-    strat_test_set = loan.loc[test_index
+    strat_test_set = loan.loc[test_index]
 
 #split data into training set and testing set
 for set_ in (strat_train_set, strat_test_set):
