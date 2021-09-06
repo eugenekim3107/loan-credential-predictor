@@ -1,2 +1,2 @@
 # LoanProject
-Determines if investors should load money to borrower
+Predicts whether borrowers will pay back their loan
