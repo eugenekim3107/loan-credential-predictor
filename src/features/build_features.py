@@ -1,11 +1,8 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
-import sklearn.pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
@@ -26,3 +23,36 @@ for set_ in (strat_train_set, strat_test_set):
 #split features and label
 loan = strat_train_set.drop('credit.policy',axis=1)
 loan_labels = strat_train_set['credit.policy'].copy()
+
+#use mean to fill in empty cells
+imputer = SimpleImputer(strategy="median")
+loan_num = loan.drop('purpose', axis=1)
+imputer.fit(loan_num)
+
+#use 1hot encoder for categorical features
+loan_cat = loan[["purpose"]]
+cat_encoder = OneHotEncoder()
+loan_cat_1hot = cat_encoder.fit_transform(loan_cat)
+loan_cat_1hot.toarray()
+
+#form numerical pipeline
+num_pipeline = Pipeline([('imputer', SimpleImputer(strategy = 'median')),('std_scaler',StandardScaler())])
+
+#form full pipeline with numerical and categorical features
+num_attribs = list(loan_num)
+cat_attribs = ['purpose']
+full_pipeline = ColumnTransformer([('num', num_pipeline, num_attribs),('cat', OneHotEncoder(),cat_attribs),])
+loan_prepared = full_pipeline.fit_transform(loan)
+
+#save data to files
+np.savetxt('loan_prepared.txt', loan_prepared)
+np.savetxt('loan_labels.txt', loan_labels)
+
+#separate test data
+test_features = strat_test_set.drop('credit.policy', axis=1)
+test_labels = strat_test_set['credit.policy'].copy()
+
+#convert and save test set
+test_features = full_pipeline.fit_transform(test_features)
+np.savetxt('test_features.txt', test_features)
+np.savetxt('test_labels.txt', test_labels)
