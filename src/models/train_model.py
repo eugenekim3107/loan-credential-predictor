@@ -17,7 +17,7 @@ log_reg.fit(loan_prepared, loan_labels)
 log_reg = joblib.dump(log_reg, "log_reg.pkl")
 
 #load random forest classifier with hyperparameter tuning
-rfc = RandomForestClassifier(n_estimators=150, max_features="sqrt")
+rfc = RandomForestClassifier(n_estimators=150, max_features="log2")
 
 #fit model onto data
 rfc.fit(loan_prepared,loan_labels)
