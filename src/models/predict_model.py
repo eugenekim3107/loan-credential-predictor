@@ -30,3 +30,10 @@ test_labels = np.loadtxt('test_labels.txt')
 test_predictions = rfc.predict(test_features)
 scores = cross_val_score(rfc, test_features, test_labels, cv=10, scoring="f1")
 print("random forest classifier (test set) f1 score: ", scores.mean())
+
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
+from sklearn import tree
+figure(figsize=(25,20))
+tree.plot_tree(rfc.estimators_[0], filled=True)
+plt.show()

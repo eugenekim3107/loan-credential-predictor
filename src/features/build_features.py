@@ -36,8 +36,8 @@ cat_encoder = OneHotEncoder()
 loan_cat_1hot = cat_encoder.fit_transform(loan_cat)
 loan_cat_1hot.toarray()
 
-#form numerical pipeline
-num_pipeline = Pipeline([('imputer', SimpleImputer(strategy = 'median')),('std_scaler',StandardScaler())])
+#form binary pipeline
+binary_pipeline = Pipeline([('imputer', SimpleImputer(strategy = 'median')),('std_scaler',StandardScaler())])
 
 # create custom transformer for outliers
 class OutlierRemover(BaseEstimator, TransformerMixin):
@@ -70,11 +70,11 @@ outlier_pipeline = Pipeline([('outlier', outlier_remover),
                              ('std_scaler',StandardScaler())
                             ])
 
-#form full pipeline with numerical, outlier, and categorical features
-num_attribs = ['revol.bal','revol.util','inq.last.6mths','delinq.2yrs','pub.rec','not.fully.paid']
-outlier_attribs = ['int.rate','installment','log.annual.inc','dti','fico','days.with.cr.line']
+#form full pipeline with binary, outlier, and categorical features
+binary_attribs = ['pub.rec','not.fully.paid']
+outlier_attribs = ['int.rate','installment','log.annual.inc','dti','fico','days.with.cr.line','revol.bal','revol.util','inq.last.6mths','delinq.2yrs']
 cat_attribs = ['purpose']
-full_pipeline = ColumnTransformer([('num', num_pipeline, num_attribs),('outlier', outlier_pipeline, outlier_attribs),('cat', OneHotEncoder(),cat_attribs)])
+full_pipeline = ColumnTransformer([('num', binary_pipeline, binary_attribs),('outlier', outlier_pipeline, outlier_attribs),('cat', OneHotEncoder(),cat_attribs)])
 loan_prepared = full_pipeline.fit_transform(loan)
 
 #save data to files
