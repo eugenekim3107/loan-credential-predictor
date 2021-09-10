@@ -22,7 +22,7 @@ for set_ in (strat_train_set, strat_test_set):
     set_.drop('fico_cat', axis=1, inplace=True)
 
 #split features and label
-loan = strat_train_set.drop('credit.policy',axis=1)
+loan = strat_train_set.drop(['credit.policy','not.fully.paid'],axis=1)
 loan_labels = strat_train_set['credit.policy'].copy()
 
 #use mean to fill in empty cells
@@ -71,8 +71,8 @@ outlier_pipeline = Pipeline([('outlier', outlier_remover),
                             ])
 
 #form full pipeline with numerical, outlier, and categorical features
-num_attribs = ['pub.rec','not.fully.paid']
-outlier_attribs = ['int.rate','installment','log.annual.inc','dti','fico','days.with.cr.line','revol.bal','revol.util','inq.last.6mths','delinq.2yrs']
+num_attribs = ['revol.bal','revol.util','inq.last.6mths','delinq.2yrs','pub.rec']
+outlier_attribs = ['int.rate','installment','log.annual.inc','dti','fico','days.with.cr.line']
 cat_attribs = ['purpose']
 full_pipeline = ColumnTransformer([('num', num_pipeline, num_attribs),('outlier', outlier_pipeline, outlier_attribs),('cat', OneHotEncoder(),cat_attribs)])
 loan_prepared = full_pipeline.fit_transform(loan)

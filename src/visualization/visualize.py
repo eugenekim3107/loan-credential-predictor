@@ -23,13 +23,6 @@ scatter_matrix(loan[attributes], figsize=(12,8))
 #graph logistic regression comparing credit policy and other features
 sns.regplot(x='fico', y='credit.policy', data=loan, y_jitter=.05, logistic=True)
 
-#heatmap visualization of score
-clf_report = classification_report(y_true=loan_labels,
-                                   y_pred=loan_predictions,
-                                   target_names=['Not Paid','Paid'],
-                                   output_dict=True)
-sns.heatmap(pd.DataFrame(clf_report).iloc[:-1, :].T, vmin=0.4, vmax=1, annot=True)
-
 #decision tree
 figure(figsize=(15,10))
 tree.plot_tree(rfc.estimators_[0], filled=True)

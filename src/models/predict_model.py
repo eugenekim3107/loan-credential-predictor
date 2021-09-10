@@ -9,31 +9,39 @@ loan_labels = np.loadtxt('loan_labels.txt')
 #load fitted logistic regression model
 log_reg = joblib.load("log_reg.pkl")
 
-#calculate scores of predictions using cross validation
+#make predictions
 loan_predictions = log_reg.predict(loan_prepared)
-scores = cross_val_score(log_reg, loan_prepared, loan_labels, cv=10, scoring="f1")
-print("logistic regression (training set) f1 score: ", scores.mean())
+
+#create scoring metric for training set
+def train_scores(model):
+    for scores in ['f1','precision','recall','accuracy']:
+        cvs = cross_val_score(model, loan_prepared, loan_labels, scoring=scores, cv=10).mean()
+        print(scores + " : "+ str(cvs))
+
+#calculate scores of predictions using cross validation
+train_scores(log_reg)
 
 #load fitted random forest classifier model with hyperparameter tuning
 rfc = joblib.load("rfc.pkl")
 
-#calculate scores of predictions using cross validation
+#make predictions
 loan_predictions = rfc.predict(loan_prepared)
-scores = cross_val_score(rfc, loan_prepared, loan_labels, cv=10, scoring="f1")
-print("random forest classifier (training set) f1 score: ", scores.mean())
+
+#calculate scores of predictions using cross validation
+train_scores(rfc)
 
 #load test set
 test_features = np.loadtxt('test_features.txt')
 test_labels = np.loadtxt('test_labels.txt')
 
-#calculate scores of predictions using cross validation
+#make predictions
 test_predictions = rfc.predict(test_features)
-scores = cross_val_score(rfc, test_features, test_labels, cv=10, scoring="f1")
-print("random forest classifier (test set) f1 score: ", scores.mean())
 
-import matplotlib.pyplot as plt
-from matplotlib.pyplot import figure
-from sklearn import tree
-figure(figsize=(25,20))
-tree.plot_tree(rfc.estimators_[0], filled=True)
-plt.show()
+#create scoring metric for testing set
+def test_scores(model):
+    for scores in ['f1','precision','recall','accuracy']:
+        cvs = cross_val_score(model, test_features, test_labels, scoring=scores, cv=10).mean()
+        print(scores + " : "+ str(cvs))
+
+#calculate scores of predictions using cross validation
+test_scores(rfc)
