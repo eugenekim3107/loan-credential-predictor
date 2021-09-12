@@ -26,3 +26,13 @@ sns.regplot(x='fico', y='credit.policy', data=loan, y_jitter=.05, logistic=True)
 #decision tree
 figure(figsize=(15,10))
 tree.plot_tree(rfc.estimators_[0], filled=True)
+
+#plot results of f1 scores
+plt.plot(np.array(range(1,11)), log_score, label = 'logistic regression train')
+plt.plot(np.array(range(1,11)), rfc_score, label = 'random forest train')
+plt.plot(np.array(range(1,11)), test_score, label = 'random forest test')
+plt.xlabel('Number of Evaluations')
+plt.ylabel('F1 Scores')
+plt.title('F1 Score Comparison')
+plt.legend()
+plt.show()
