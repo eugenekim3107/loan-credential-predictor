@@ -100,6 +100,7 @@ question led to more questions. Some of the major challenges are listed down bel
 - cross validation for testing
 - understanding different metrics for classification (f1 score, precision, recall, accuracy)
 - plotting graphs
+
 The amount of time researching and understanding these topic
 were significantly more than developing the project. Overall,
 this was a great learning experience for the start of my machine learning
