@@ -2,7 +2,7 @@
 # Loan Credential Predictor
 
 This project takes LendingClub's dataset from 2007-2010
-and predicts whether or not potential borrowers meet
+and predicts whether potential borrowers meet
 LendingClub's credit policy. This information
 can benefit both the borrowers and investors. If the credit
 policy is not met, investors can proceed with more caution before
